@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cv_height"
+        android:id="@+id/cv"
+        app:cardPreventCornerOverlap="false"
+        android:paddingBottom="2dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_width="@dimen/w_photo_width">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/watermelonPhotoId"
+                    android:src="@drawable/watermelon"
+                    android:layout_height="match_parent"
+                    android:adjustViewBounds="false"
+                    android:baselineAlignBottom="false"
+                    android:layout_gravity="center"
+                    android:paddingBottom="4dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:id="@+id/watermelonName"
+                    android:textSize="18sp"
+                    android:text="@string/watermelon"
+                    android:layout_width="match_parent"
+                    android:clickable="false"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/watermelonVariety"
+                    android:text="@string/variety"
+                    android:verticalScrollbarPosition="left"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

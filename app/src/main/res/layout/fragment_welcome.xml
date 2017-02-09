@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <android.support.design.widget.CoordinatorLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerview"
+            android:scrollbars="vertical"
+            android:elevation="12dp"
+            android:layout_weight="2"
+            tools:listitem="@layout/recycler_item" />
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                app:backgroundTint="@color/colorAccent"
+                app:fabSize="normal"
+                android:src="@drawable/plus"
+                android:id="@+id/faBtn"
+                app:layout_anchor="@id/recyclerview"
+                app:layout_anchorGravity="bottom|right|end"
+                />
+        />
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

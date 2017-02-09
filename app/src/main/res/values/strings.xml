@@ -1,0 +1,82 @@
+<resources>
+    <string name="app_name">Chupyra_watermelon</string>
+    <string name="my_screen_text">my screen</string>
+    <string name="txtViewLogin">Login</string>
+    <string name="txtViewName">Name</string>
+    <string name="txtViewPassword">Password</string>
+    <string name="btnLogin">Login</string>
+    <string name="btnRegistration">Registration</string>
+    <string name="btnOK">OK</string>
+    <string name="btnCancel">Cancel</string>
+    <string name="watermelon_data">watermelon_data</string>
+    <string name="passwordKey">passwordKey</string>
+    <string name="nameKey">nameKey</string>
+    <string name="watermelonDataKey">watermelonDataKey</string>
+    <string name="loginError">Имя и(или) пароль не совпадают</string>
+    <string name="loginDataSaved">Login data were saved</string>
+    <string name="password">пароль</string>
+    <string name="name">имя</string>
+    <string name="specify">Укажите</string>
+    <string name="LoggedPageTitle">Logged as</string>
+    <string name="fragment">Fragment</string>
+    <string name="regActivityTitle">Registration</string>
+    <string name="differentPasswords">Пароли не совпадают</string>
+    <string name="watermelon">Кавун</string>
+    <string name="variety">сорт</string>
+    <string name="varietyAstrahanskyj">"астраханський"</string>
+    <string name="varietyKrimson">"кримсон світ"</string>
+    <string name="varietyMoon">"місяць і зірки"</string>
+    <string name="varietyBorysfen">"борисфен"</string>
+    <string name="varietyKrasenj">"красень"</string>
+    <string name="varietySugar">"цукровий малюк"</string>
+    <string name="varietyFlame">"вогник"</string>
+    <string name="add">+</string>
+    <string name="addAction">введення даних про новий кавун</string>
+    <string name="cryptographicAlgorithm">"DES"</string>
+    <string name="seed">AM6ROFFBABFAKILLEMALL</string>
+    <string name="UTF8">UTF8</string>
+    <string name="sha">SHA1PRNG</string>
+    <string name="hex">0123456789ABCDEF</string>
+    <string name="toolbarTitle">Toolbar Title</string>
+    <string name="json_key">JSON</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+
+    <string-array name="varieties">
+        <item>астраханський</item>
+        <item>кримсон солодкий</item>
+        <item>місяць</item>
+        <item>борисфен</item>
+        <item>красень</item>
+        <item>цукровий малюк</item>
+        <item>вогник</item>
+        <item>холодок</item>
+        <item>місяць і зірки</item>
+        <item>навао зимовий</item>
+    </string-array>
+
+    <integer-array name="watermelons_photoes">
+        <item>@drawable/watermelon_variety_astrahanskyj</item>
+        <item>@drawable/watermelon_variety_krimson_svit</item>
+        <item>@drawable/watermelon_variety_moon</item>
+        <item>@drawable/watermelon_variety_borysfen</item>
+        <item>@drawable/watermelon_variety_krasenj</item>
+        <item>@drawable/watermelon_variety_sugar_baby</item>
+        <item>@drawable/watermelon_variety_vognyk</item>
+        <item>@drawable/watermelon_variety_holodok</item>
+        <item>@drawable/watermelon_variety_moon_and_stars</item>
+        <item>@drawable/watermelon_variety_navajo_winter</item>
+    </integer-array>
+
+    <string name="OK">OK</string>
+    <string name="yes">Так</string>
+    <string name="no">Ні</string>
+    <string name="cancel">Відхилити</string>
+
+    <string name="new_variety_add_dialog_title">Введіть назву нового сорту:</string>
+    <string name="change_variety_dialog_title">Вкажіть нову назву цього сорту:</string>
+    <string name="delete_variety">Видалити цей сорт?</string>
+    <string name="variety_field">variety</string>
+    <string name="photoId_field">photoId</string>
+</resources>
