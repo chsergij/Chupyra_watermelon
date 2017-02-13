@@ -20,6 +20,6 @@ public class WatermelonViewHolder extends RecyclerView.ViewHolder {
     }
     public void bind(WatermelonModel watermelonModel) {
         variety.setText(watermelonModel.getVariety());
-        photoId.setImageResource(watermelonModel.getPhotoId());
+        photoId.setImageResource((int) watermelonModel.getPhotoId());
     }
 }

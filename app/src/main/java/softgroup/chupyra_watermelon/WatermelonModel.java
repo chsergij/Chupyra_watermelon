@@ -1,18 +1,27 @@
 package softgroup.chupyra_watermelon;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class WatermelonModel {
     String variety;
     int photoId;
-//    int id;
+    long id;
 
     WatermelonModel(String variety, int photoId) {
-        //this.id = id;
+        this.id = id;
         this.variety = variety;
         this.photoId = photoId;
+    }
+
+    WatermelonModel(long id, String variety, int photoId) {
+        this.id = id;
+        this.variety = variety;
+        this.photoId = photoId;
+    }
+
+    public long getId() { return this.id;}
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getVariety() {
@@ -23,7 +32,7 @@ public class WatermelonModel {
         this.variety = newVariety;
     }
 
-    public int getPhotoId() {
+    public long getPhotoId() {
         return this.photoId;
     }
 

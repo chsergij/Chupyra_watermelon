@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Select;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyApplication extends Application {
@@ -26,6 +28,7 @@ public class MyApplication extends Application {
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.watermelon_data), Context.MODE_PRIVATE);
         sharedPrefEditor = sharedPreferences.edit();
         myDESCryptoProvider = new DESCryptoProvider(this);
+        ActiveAndroid.initialize(this);
     }
 
     public String getUserName() {
@@ -65,6 +68,36 @@ public class MyApplication extends Application {
             sharedPrefEditor.putString(getResources().getString(R.string.json_key), jsonArray.toString());
             sharedPrefEditor.commit();
         } catch (JSONException e){}
+    }
+
+    public void saveWatermelonToDB(WatermelonModel watermelonModel) {
+        WatermelonDBRec watermelonDBRec = new WatermelonDBRec();
+        watermelonDBRec.variety = watermelonModel.variety;
+        watermelonDBRec.photoId = watermelonModel.photoId;
+        watermelonDBRec.save();
+        watermelonModel.setId(watermelonDBRec.getId());
+    }
+
+    public List<WatermelonDBRec> getAllWatermelonDBRec() {
+        return new Select()
+                .from(WatermelonDBRec.class)
+                .execute();
+    }
+
+    public void removeWatermelonFromDB (long id) {
+        WatermelonDBRec item = WatermelonDBRec.load(WatermelonDBRec.class,id);
+        item.delete();
+    }
+
+    public void updateWatermelonInDB(WatermelonModel watermelonModel) {
+        WatermelonDBRec item =  new Select()
+            .from(WatermelonDBRec.class)
+            .where("Id = ?", watermelonModel.getId())
+            .executeSingle();
+        item.variety = watermelonModel.getVariety();
+        item.photoId = (int) watermelonModel.getPhotoId();
+        item.save();
+
     }
 
     public int getSelectedRVPosition() {

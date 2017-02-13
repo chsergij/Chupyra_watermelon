@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,12 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
-import android.support.v7.widget.RecyclerView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +77,10 @@ public class WelcomeFragment extends Fragment implements SearchView.OnQueryTextL
 //        dialogBuilder.setMessage("");
         dialogBuilder.setPositiveButton(getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                mWatermelonModel.get(myApp.getSelectedRVPosition()).setVariety(edt.getText().toString());
+                int position = myApp.getSelectedRVPosition();
+                WatermelonModel watermelonModel = mWatermelonModel.get(position);
+                watermelonModel.setVariety(edt.getText().toString());
+                myApp.updateWatermelonInDB(watermelonModel);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -104,8 +102,11 @@ public class WelcomeFragment extends Fragment implements SearchView.OnQueryTextL
                 .setPositiveButton(getResources().getString(R.string.yes),
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                mWatermelonModel.remove(myApp.getSelectedRVPosition());
-                                adapter.notifyItemRemoved(myApp.getSelectedRVPosition());
+                                int position = myApp.getSelectedRVPosition();
+                                WatermelonModel watermelonModel = mWatermelonModel.get(position);
+                                mWatermelonModel.remove(position);
+                                adapter.notifyItemRemoved(position);
+                                myApp.removeWatermelonFromDB(watermelonModel.getId());
                                 dialog.dismiss();
                             }
                         })
@@ -131,10 +132,10 @@ public class WelcomeFragment extends Fragment implements SearchView.OnQueryTextL
             dialogBuilder.setIcon(R.mipmap.ic_add);
             dialogBuilder.setPositiveButton(getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    mWatermelonModel.add(new WatermelonModel(edt.getText().toString(), R.drawable.watermelon));
-                    int index = mWatermelonModel.size()-1;
-//                    myApp.setWatermelonData(mWatermelonModel.get(index).getVariety());
+                    WatermelonModel newWatermelonModel = new WatermelonModel(edt.getText().toString(), R.drawable.watermelon);
+                    mWatermelonModel.add(newWatermelonModel);
                     myApp.setWatermelonData(mWatermelonModel);
+                    myApp.saveWatermelonToDB(newWatermelonModel);
                     adapter.notifyDataSetChanged();
                     recyclerview.scrollToPosition(adapter.getItemCount()-1);
                 }
@@ -149,6 +150,41 @@ public class WelcomeFragment extends Fragment implements SearchView.OnQueryTextL
         }
     };
 
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setHasOptionsMenu(true);
+        initializeDataFromDB();
+        adapter = new RVAdapter(mWatermelonModel);
+        recyclerview.setAdapter(adapter);
+    }
+
+    private void initializeDataFromDB() {
+        mWatermelonModel = new ArrayList<>();
+        List<WatermelonDBRec> allWatermelonDBRec = myApp.getAllWatermelonDBRec();
+        if (allWatermelonDBRec.size() == 0) {
+            String[] varieties = getResources().getStringArray(R.array.varieties);
+            TypedArray watermelons_photoes = getResources().obtainTypedArray(R.array.watermelons_photoes);
+            WatermelonModel newWatermelonModel;
+            for (int i = 0; i < varieties.length; i++) {
+                newWatermelonModel = new WatermelonModel(varieties[i], watermelons_photoes.getResourceId(i, -1));
+                mWatermelonModel.add(newWatermelonModel);
+                myApp.saveWatermelonToDB(newWatermelonModel);
+            }
+        } else {
+            String variety;
+            int photoId;
+            long id;
+            for (int i = 0; i < allWatermelonDBRec.size(); i++) {
+                variety = allWatermelonDBRec.get(i).variety;
+                photoId = allWatermelonDBRec.get(i).photoId;
+                id = allWatermelonDBRec.get(i).getId();
+                mWatermelonModel.add(new WatermelonModel(id, variety, photoId));
+            }
+        }
+    }
+
+    /* //for lesson 5 from JSON & SharedPreferences
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
@@ -161,15 +197,16 @@ public class WelcomeFragment extends Fragment implements SearchView.OnQueryTextL
         adapter = new RVAdapter(mWatermelonModel);
         recyclerview.setAdapter(adapter);
     }
-
     private void initializeData() throws JSONException {
         mWatermelonModel = new ArrayList<>();
         String jsonStr = myApp.getWatermelonData_JSON_str();
         if (jsonStr.isEmpty()) {
             String[] varieties = getResources().getStringArray(R.array.varieties);
             TypedArray watermelons_photoes = getResources().obtainTypedArray(R.array.watermelons_photoes);
+            WatermelonModel newWatermelonModel;
             for (int i = 0; i < varieties.length; i++) {
-                mWatermelonModel.add(new WatermelonModel(varieties[i], watermelons_photoes.getResourceId(i, -1)));
+                newWatermelonModel = new WatermelonModel(varieties[i], watermelons_photoes.getResourceId(i, -1));
+                mWatermelonModel.add(newWatermelonModel);
             }
         }
         else {
@@ -190,6 +227,7 @@ public class WelcomeFragment extends Fragment implements SearchView.OnQueryTextL
             }
         }
     }
+*/ //for lesson 5 from JSON & SharedPreferences
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
