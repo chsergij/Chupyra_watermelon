@@ -9,10 +9,6 @@ import android.widget.Toast;
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
 
 public class MyApplication extends Application {
@@ -49,55 +45,37 @@ public class MyApplication extends Application {
         sharedPrefEditor.commit();
 }
 
-    public String getWatermelonData_JSON_str() {
-        return sharedPreferences.getString(getResources().getString(R.string.json_key), "");
+
+    public void savePhonebookContactToDB(PhonebookContactModel phonebookContact) {
+        PhonebookContactDBRec phonebookDBRec = new PhonebookContactDBRec();
+        phonebookDBRec.name = phonebookContact.getName();
+        phonebookDBRec.phone = phonebookContact.getPhone();
+        phonebookDBRec.readonly = phonebookContact.getReadonlyStatus();
+        phonebookDBRec.save();
+        phonebookContact.setId(phonebookDBRec.getId());
     }
 
-    public void setWatermelonData (List<WatermelonModel> mWatermelonModel) {
-        JSONArray jsonArray = new JSONArray();
-        WatermelonModel watermelon;
-        try{
-            for(int i=0; i<mWatermelonModel.size();i++) {
-                JSONObject jsonObject = new JSONObject();
-                watermelon = mWatermelonModel.get(i);
-                jsonObject.put(getResources().getString(R.string.variety_field), watermelon.getVariety());
-                jsonObject.put(getResources().getString(R.string.photoId_field), watermelon.getPhotoId());
-                jsonArray.put(jsonObject);
-                jsonObject = null;
-            }
-            sharedPrefEditor.putString(getResources().getString(R.string.json_key), jsonArray.toString());
-            sharedPrefEditor.commit();
-        } catch (JSONException e){}
-    }
-
-    public void saveWatermelonToDB(WatermelonModel watermelonModel) {
-        WatermelonDBRec watermelonDBRec = new WatermelonDBRec();
-        watermelonDBRec.variety = watermelonModel.variety;
-        watermelonDBRec.photoId = watermelonModel.photoId;
-        watermelonDBRec.save();
-        watermelonModel.setId(watermelonDBRec.getId());
-    }
-
-    public List<WatermelonDBRec> getAllWatermelonDBRec() {
+    public List<PhonebookContactDBRec> getAllPhonebookContactsDBRec() {
         return new Select()
-                .from(WatermelonDBRec.class)
+                .from(PhonebookContactDBRec.class)
                 .execute();
     }
 
-    public void removeWatermelonFromDB (long id) {
-        WatermelonDBRec item = WatermelonDBRec.load(WatermelonDBRec.class,id);
-        item.delete();
+    public void removePhonebookContactFromDB (long id) {
+        PhonebookContactDBRec phonebookDBRec = PhonebookContactDBRec.load(PhonebookContactDBRec.class,id);
+        if (!phonebookDBRec.readonly) phonebookDBRec.delete();
     }
 
-    public void updateWatermelonInDB(WatermelonModel watermelonModel) {
-        WatermelonDBRec item =  new Select()
-            .from(WatermelonDBRec.class)
-            .where("Id = ?", watermelonModel.getId())
+    public void updatePhonebookContactInDB(PhonebookContactModel phonebookContact) {
+        PhonebookContactDBRec phonebookDBRec =  new Select()
+            .from(PhonebookContactDBRec.class)
+            .where("Id = ?", phonebookContact.getId())
             .executeSingle();
-        item.variety = watermelonModel.getVariety();
-        item.photoId = (int) watermelonModel.getPhotoId();
-        item.save();
-
+        if (!phonebookDBRec.readonly) {
+            phonebookDBRec.name = phonebookContact.getName();
+            phonebookDBRec.phone = phonebookContact.getPhone();
+            phonebookDBRec.save();
+        }
     }
 
     public int getSelectedRVPosition() {
@@ -106,6 +84,16 @@ public class MyApplication extends Application {
 
     public void setSelectedRVPosition(int selectedRVPosition) {
         this.selectedRVPosition = selectedRVPosition;
+    }
+
+    public boolean getUserLogStatus() {
+        return sharedPreferences.getString(getResources().getString(R.string.userLogStatusKey), "").equals(getResources().getString(R.string.userLogStatusLogged));
+    }
+
+    public void setUserLogStatus(boolean newLogStatus) {
+        String loggedStatus = newLogStatus? getResources().getString(R.string.userLogStatusLogged) : getResources().getString(R.string.userLogStatusUnLogged);
+        sharedPrefEditor.putString(getResources().getString(R.string.userLogStatusKey), loggedStatus);
+        sharedPrefEditor.commit();
     }
 
     private void showToast(String message) {

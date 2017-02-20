@@ -8,6 +8,17 @@
     android:layout_height="match_parent">
 
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvInfo" />
 
     <android.support.design.widget.CoordinatorLayout
     android:layout_height="match_parent"

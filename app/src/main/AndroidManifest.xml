@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="softgroup.chupyra_watermelon">
-
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="AA_DB_NAME" android:value="Watermelon.db" />
+        <meta-data android:name="AA_DB_NAME" android:value="Phonebook.db" />
         <meta-data android:name="AA_DB_VERSION" android:value="5" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="softgroup.chupyra_watermelon.WatermelonDBRec" />
+            android:value="softgroup.chupyra_watermelon.PhonebookDBRec" />
 
         <activity android:name=".LoginActivity">
             <intent-filter>

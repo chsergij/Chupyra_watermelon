@@ -1,8 +1,8 @@
 package softgroup.chupyra_watermelon;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +15,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     private EditText editTextPassword;
     private String activeUserName;
     private String activeUserPassword;
-
+    MyApplication myApp;
     Toolbar loginToolbar ;
 
     @Override
@@ -25,7 +25,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         loginToolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        myApp = ((MyApplication) getApplicationContext());
+        if (myApp.getUserLogStatus()) startWelcomeActivity();
     }
+
+    private void startWelcomeActivity() {
+        myApp.setUserLogStatus(true);
+        startActivity(new Intent(this, WelcomeActivity.class));
+    }
+
 
     private boolean checkUser(String userName, String userPassword) {
         return userName.equals(activeUserName) && userPassword.equals(activeUserPassword);
@@ -41,10 +49,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         switch (v.getId()) {
             case R.id.buttonLogin:
                 if (checkUser(userName, userPassword)) {
-                    Intent intent;
-                    intent = new Intent(this, WelcomeActivity.class);
-                    intent.putExtra(getResources().getString(R.string.nameKey), userName);
-                    startActivity(intent);
+                    startWelcomeActivity();
                 } else {
                     message = getResources().getString(R.string.loginError);
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
@@ -59,7 +64,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     @Override
     protected void onResume() {
         super.onResume();
-        MyApplication myApp = ((MyApplication) getApplicationContext());
         activeUserName = myApp.getUserName();
         editTextName.setText(activeUserName);
         activeUserPassword = myApp.getUserPassword();
